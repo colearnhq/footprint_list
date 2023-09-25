@@ -223,9 +223,9 @@ footer div {
         <script>
             window.onload = function() {
               var sp = new SuperPlaceholder({
-                placeholders: ["Biar sat set, masukin nama slot kamu", "Contoh: Matematika Merdeka 1"],
+                placeholders: ["Biar sat set, masukin nama slot kamu", "Tapi tolong, sesuai format ya ges ya","Format: subjek(spasi)kurikulum(spasi)indeks"],
                 stay: 1000,
-                speed: 60,
+                speed: 50,
                 element: '#search'
               });
               sp.init();
@@ -244,17 +244,17 @@ footer div {
 
     <footer class="flex">
 
-        <div class="previous" id="getBack">
-            <span> &laquo; Previous</span>
-        </div>
+        <button class="previous" id="getBack">
+             &laquo; Previous
+        </button>
 
         <div id="page">
             1
         </div>
 
-        <div class="next" id="goAhead">
-            <span> Next &raquo;</span>
-        </div>
+        <button class="next" id="goAhead">
+            Next &raquo;
+        </button>
 
     </footer>
 
