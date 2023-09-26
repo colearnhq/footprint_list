@@ -14,6 +14,8 @@ fetch('https://script.google.com/macros/s/AKfycbyshEBWdOvX7jSgiYvo_HhbRd9jxs_ncS
             allData = res;
             DataWhichFiltered = res; // Menyimpan data awal yang belum difilter
             changeElement(res);
+            let footprintCount = res.length;
+            document.getElementById("footprintCount").textContent = `Jumlah footprint yang tersedia: ${footprintCount}`
         });
     })
 
