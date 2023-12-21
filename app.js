@@ -3,7 +3,7 @@ let limitElement = 10;
 let allData = [];
 let DataWhichFiltered = []; // Menyimpan data yang sudah difilter
 
-fetch('https://script.google.com/macros/s/AKfycbyshEBWdOvX7jSgiYvo_HhbRd9jxs_ncSoirtADHBn_ZB1KwlNu7iGn8rVkyjwvU6ABCA/exec')
+fetch('https://script.google.com/macros/s/AKfycbyRRFuekrkDirl-ImupQS_CPToWMnimbFay4adUnrf9DLvGy4X9P0_NxORDdiui00g1qA/exec')
     .then((res) => {
         if (res.status != 200) {
             console.log('aduuh' + res.status);
