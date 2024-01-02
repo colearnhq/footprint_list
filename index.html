@@ -1,249 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Footprint List</title>
-    <link rel = "icon" href = 
-"https://play-lh.googleusercontent.com/-XrH2uYQlXwLVUuey7y88hN9-WDL6ZweL39C1yvQlt6nO1tPEB8rGYejXxbA3mdmw5YE" 
-        type = "image/x-icon">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="icon"
+        href="https://play-lh.googleusercontent.com/-XrH2uYQlXwLVUuey7y88hN9-WDL6ZweL39C1yvQlt6nO1tPEB8rGYejXxbA3mdmw5YE"
+        type="image/x-icon">
     <style>
         html,
-body {
-    margin: 0;
-    height: 100%;
-    overflow: auto;
-}
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: auto;
+            font-family: 'Poppins';
+        }
 
-.search-keyword {
+        .search-keyword {
 
-    background-image: url('https://www.freepnglogos.com/uploads/search-png/search-icon-transparent-images-vector-16.png');
-    background-position: 10px 10px;
-    background-size: 25px 25px;
-    background-repeat: no-repeat;
-    width: 100%;
-    font-size: 16px;
-    padding: 12px 20px 12px 45px;
-    border: 1px solid #ddd;
-    border-radius: 50px 0 0 50px;
+            background-image: url('https://www.freepnglogos.com/uploads/search-png/search-icon-transparent-images-vector-16.png');
+            background-position: 10px 10px;
+            background-size: 25px 25px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid #ddd;
+            border-radius: 50px 0 0 50px;
 
-}
+        }
 
-.margin {
-    margin: 0px 100px 12px;
-}
+        .margin {
+            margin: 0px 100px 12px;
+        }
 
-SELECT {
-    background: url("data:image/svg+xml,<svg height='10px' width='10px' viewBox='0 0 16 16' fill='%23000000' xmlns='http://www.w3.org/2000/svg'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>") no-repeat;
-    background-position: calc(100% - 0.75rem) center !important;
-    -moz-appearance:none !important;
-    -webkit-appearance: none !important; 
-    appearance: none !important;
-    padding-right: 2rem !important;
-}
+        SELECT {
+            background: url("data:image/svg+xml,<svg height='10px' width='10px' viewBox='0 0 16 16' fill='%23000000' xmlns='http://www.w3.org/2000/svg'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>") no-repeat;
+            background-position: calc(100% - 0.75rem) center !important;
+            -moz-appearance: none !important;
+            -webkit-appearance: none !important;
+            appearance: none !important;
+            padding-right: 2rem !important;
+        }
 
-.dropdownPages {
-    background-color: #FFE9AE;
-    color: #8a753b;
-    padding: 12px 20px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    width: 50%;
-    border-radius: 0px 50px 50px 0px;
-}
+        .dropdownPages {
+            background-color: #FFE9AE;
+            color: #8a753b;
+            padding: 12px 21px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            width: 21%;
+        }
 
-.grid {
-    display: grid;
-    gap: 10px;
-    justify-content: center;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: repeat(4, 1fr);
-    margin: 0px 100px;
-}
+        .semester {
+            background-color: #FFE9AE;
+            color: #8a753b;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            width: 28%;
+            border-radius: 0px 50px 50px 0px;
+        }
 
-.flex {
-    display: flex;
-    justify-content: space-around;
-}
+        .grid {
+            display: grid;
+            gap: 10px;
+            justify-content: center;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: repeat(4, 1fr);
+            margin: 0px 100px;
+        }
 
-.flex-direction-column {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
+        .data-unavailable {
+            text-align: center;
+            background-color: #ffcaca;
+            color: #4e4e4e;
+            padding: 50px 0;
+            margin: 0px 100px;
+            border-radius: 1em;
+        }
 
-.flex-direction-row {
-    display: flex;
-    flex-direction: row;
-}
+        .data-unavailable>div:nth-child(2) {
+            color: #a84242;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
 
-h1 {
-    text-align: center;
-    padding: 10px 0px;
-}
+        .flex {
+            display: flex;
+            justify-content: space-around;
+        }
 
-h3 {
-    padding: 10px 100px;
-}
+        .flex-direction-column {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-.box {
+        .flex-direction-row {
+            display: flex;
+            flex-direction: row;
+        }
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: #FFB3B3;
-    box-shadow: 2px 4px 5px #efefef;
-    color: #a84242;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 1em;
+        h1 {
+            text-align: center;
+            padding: 10px 0px;
+        }
 
-}
+        h3 {
+            padding: 10px 100px;
+        }
 
-.phy-box {
+        a > div:first-child {
+            padding: 1.5rem;
+        }
 
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-width: 100%;
-height: 100%;
-background-color: #FFDBA4;
-color: #a76400;
-font-weight: bold;
-box-shadow: 2px 4px 5px #efefef;
-text-decoration: none;
-border-radius: 1em;
-}
+        a > div:first-child >div:first-child {
+            font-size: 1.2em;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
 
-.phy-box:hover {
-    background-color: #ffac2f;
-    color: #a36d1d;
-    float: left;
-    transition: background-color .3s;
-    cursor: pointer;
-}
+        a > div:last-child {
+            margin-bottom: 10px;
+            align-self: center;
+            text-align: center;
+            background-color: #FFE2AC;
+            height: fit-content;
+            width: fit-content;
+            padding: 10px;
+            border-radius: .5em;
+        }
 
-.chem-box {
+        a > div:last-child >div {
+            color: #F39C93;
+            font-weight: 700;
+        }
 
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-width: 100%;
-height: 100%;
-background-color: #C1EFFF;
-color: #3586a1;
-font-weight: bold;
-box-shadow: 2px 4px 5px #efefef;
-text-decoration: none;
-border-radius: 1em;
-}
+        .box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            height: 100%;
+            background-color: #F18C8E;
+            box-shadow: 2px 4px 5px #efefef;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 1em;
+        }
 
-.chem-box:hover {
-    background-color: #2fcbff;
-    color: #1f7592;
-    float: left;
-    transition: background-color .3s;
-    cursor: pointer;
-}
+        .phy-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            height: 100%;
+            background-color: #FFE0AC;
+            color: #6886C5;
+            box-shadow: 2px 4px 5px #efefef;
+            text-decoration: none;
+            border-radius: 1em;
+        }
 
-.box:hover {
-    background-color: #ef6666;
-    color: #891313;
-    float: left;
-    transition: background-color .3s;
-    cursor: pointer;
-}
+        .phy-box>div:last-child {
+            background-color: #6886C5;
+        }
 
-footer {
-    text-align: center;
-    padding: 10px 0px;
-    margin-top: 10px;
-}
+        .phy-box>div:last-child>div {
+            color: #FFE0AC;
+        }
 
-footer div {
+        .phy-box:hover {
+            background-color: #ffac2f;
+            color: #a36d1d;
+            float: left;
+            transition: background-color .3s;
+            cursor: pointer;
+        }
 
-    text-decoration: none;
-    display: inline-block;
-    padding: 8px 16px;
+        .chem-box {
 
-}
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            height: 100%;
+            background-color: #6886C5;
+            color: #ffffff;
+            box-shadow: 2px 4px 5px #efefef;
+            text-decoration: none;
+            border-radius: 1em;
+        }
 
-.next {
-    background-color: #FFE9AE;
-    color: #8a753b;
-    width: 10rem;
-    border: none;
-    cursor: pointer;
-}
+        .chem-box >div:last-child {
+            background-color: #FFE2AC;
+        }
 
-.previous {
-    background-color: aliceblue;
-    border: none;
-    width: 10rem;
-    cursor: pointer;
-}
+        .chem-box >div:last-child>div {
+            color: #6886C5;
+        }
 
-/* .previous:hover {
-    background-color: #FFE9AE;
-    color: #8a753b;
-    float: left;
-    transition: background-color .3s;
-    cursor: pointer;
-} */
+        .chem-box:hover {
+            background-color: #546c9e;
+            color: #ffffff;
+            float: left;
+            transition: background-color .3s;
+            cursor: pointer;
+        }
 
-/* .next:hover {
-    background-color: aliceblue;
-    color: black;
-    float: left;
-    transition: background-color .3s;
-    cursor: pointer;
-} */
+        .box:hover {
+            background-color: #ef6666;
+            color: #891313;
+            float: left;
+            transition: background-color .3s;
+            cursor: pointer;
+        }
 
-.center {
-    text-align: center;
-    padding: 10px;
-}
+        footer {
+            text-align: center;
+            padding: 10px 0px;
+            margin-top: 10px;
+        }
 
-@media (max-width: 480px) {
-    .dropdownPages {
-        width: 0%;
-    }
-}
+        footer div {
+
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+
+        }
+
+        .next {
+            background-color: #FFE9AE;
+            color: #8a753b;
+            width: 10rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .previous {
+            background-color: aliceblue;
+            border: none;
+            width: 10rem;
+            cursor: pointer;
+        }
+
+        .center {
+            text-align: center;
+            padding: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .dropdownPages {
+                width: 0%;
+            }
+
+            .semester {
+                width: 0%;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <h1 style="color: #343434;">Footprint List</h1>
-    <h3 id="footprintCount">Jumlah footprint yang tersedia: loading...</h3>
+    <h1 style="color: #7496e0;">Footprint List</h1>
+    <h3 id="footprintCount" style="color: #3f3f3f;">Jumlah footprint yang ditampilkan: loading...</h3>
     <nav>
-    <div class="flex-direction-row margin">
-        <input type="search" id="search" class="search-keyword" placeholder="biar sat set, masukin nama slot kamu">
-        <script>
-            window.onload = function() {
-              var sp = new SuperPlaceholder({
-                placeholders: ["Format: grade(spasi)-(spasi)subjek(spasi)kurikulum(spasi)indeks","contoh: 10 - Matematika Merdeka 10"],
-                stay: 1000,
-                speed: 50,
-                element: '#search'
-              });
-              sp.init();
-            }
-          </script>
-        <select name="dropdownPages" id="subjectDropDown" class="dropdownPages">
-            <option value="" disabled>subject</option>
-            <option value=Maths>Maths</option>
-            <option value=Physics>Physics</option>
-            <option value=Chemistry>Chemistry</option>
-        </select>
-    </div>
+        <div class="flex-direction-row margin">
+            <input type="search" id="search" class="search-keyword" placeholder="biar sat set, masukin nama slot kamu">
+            <script>
+                window.onload = function () {
+                    var sp = new SuperPlaceholder({
+                        placeholders: ["Hayu dipilih grade dan subjectnya yak. Sesuaikan level nurani kalian", "format penulisannya bisa: grade(spasi)nama_slot atau nama_slot", "contoh: 7 Matematika Merdeka 1 atau Matematika Merdeka 1"],
+                        stay: 1000,
+                        speed: 20,
+                        element: '#search'
+                    });
+                    sp.init();
+                }
+            </script>
+            <select name="dropdownPages" id="gradeDropDown" class="dropdownPages"></select>
+            <select name="dropdownPages" id="subjectDropDown" class="dropdownPages">
+                <option value="">Pilih Subject</option>
+                <option value=Maths>Maths</option>
+                <option value=Physics>Physics</option>
+                <option value=Chemistry>Chemistry</option>
+            </select>
+            <select name="semester" id="semester" class="semester">
+                <option value="choose semester" disabled>Pilih Semester</option>
+                <option value="2023/2024-SMT1">2023/2024-SMT1</option>
+                <option value="2023/2024-SMT2" selected>2023/2024-SMT2</option>
+            </select>
+        </div>
     </nav>
 
     <article class="grid" id="area"></article>
@@ -251,7 +305,7 @@ footer div {
     <footer class="flex">
 
         <button class="previous" id="getBack">
-             Previous
+            Previous
         </button>
 
         <div id="page">
