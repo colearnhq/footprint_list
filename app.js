@@ -1,9 +1,10 @@
 let currentPage = 1;
 let limitElement = 10;
+let idDropDowns = ['subjectDropDown', 'semester', 'gradeDropDown'];
 let allData = [];
-let DataWhichFiltered = []; // Menyimpan data yang sudah difilter
+let DataWhichFiltered = [];
 
-fetch('https://script.google.com/macros/s/AKfycbyRRFuekrkDirl-ImupQS_CPToWMnimbFay4adUnrf9DLvGy4X9P0_NxORDdiui00g1qA/exec')
+fetch('https://script.google.com/macros/s/AKfycbygJFdLaO7Gu74rB4_XhXC4SRiG4gOATbMcqIswERPKAhNwkk390f6fLt96iAt_4JuJpQ/exec')
     .then((res) => {
         if (res.status != 200) {
             console.log('aduuh' + res.status);
@@ -12,36 +13,59 @@ fetch('https://script.google.com/macros/s/AKfycbyRRFuekrkDirl-ImupQS_CPToWMnimbF
 
         res.json().then((res) => {
             allData = res;
-            DataWhichFiltered = res; // Menyimpan data awal yang belum difilter
-            changeElement(res);
-            let footprintCount = res.length;
-            document.getElementById("footprintCount").textContent = `Jumlah footprint yang tersedia: ${footprintCount}`
+            filterData();
         });
+
     })
 
     .catch((err) => console.log(err));
 
 let changeElement = (data) => {
     let newEl = '';
+    let gradeOptions = '<option value="">Pilih Grade</option>';
+    let getUniqueGrades = [... new Set(allData.map(datum => datum.grade))].sort((a, b) => a - b);
+    getUniqueGrades.forEach(datum => {
+        gradeOptions += `
+        <option value="${datum}">${datum}</option>
+        `
+    })
 
     // Menggunakan DataWhichFiltered untuk perhitungan jumlah total halaman
-    const totalPages = Math.ceil(DataWhichFiltered.length / limitElement);
+    const totalPages = Math.ceil(data.length / limitElement);
 
-    let modifyData = DataWhichFiltered.slice((currentPage - 1) * limitElement, (currentPage) * limitElement);
+    let modifyData = data.slice((currentPage - 1) * limitElement, (currentPage) * limitElement);
+    console.log(data.length)
 
-    modifyData.forEach((datum) => {
-        newEl += `
-            <a class="${datum.subject === 'Maths' ? 'box' : datum.subject === 'Chemistry' ? 'chem-box' : 'phy-box'}" href="${datum.file_link}" target="_blank">
-                <span class ="center">${datum.slot_name}</span>
-                <br />
-                <span class ="center">${datum.grade}</span>
-                <br />
-                <span class ="center">${datum.subject}</span>
+    if (data.length === 0) {
+        document.getElementById('area').classList.remove('grid');
+        newEl += `<div class="data-unavailable">
+                        <img src="https://png2.cleanpng.com/sh/b657b08ebdfdd89cb6aca027c33f2b05/L0KzQYi4UcI4N2I4fpGAYUHldYrpWPI4OZNpSJCBM0C3SYKCUsE2OWI8T6oCNES6RXB3jvc=/5a1be9b8b71bd0.63049192151177874475.png" alt="smurf" width="100" height="130">
+                        <div>Oops, Data Tidak Tersedia</div>
+                        <div>pastikan pemilihan grade atau subjeknya sesuai ya. Hati-hati format penulisan nama slotnya</div>
+                  </div>`
+
+    } else {
+        document.getElementById('area').classList.add('grid');
+        modifyData.forEach((datum) => {
+            newEl += `
+            <a class="${datum.subject === 'Maths' ? 'box' : datum.subject === 'Chemistry' ? 'chem-box' : 'phy-box'}" href="${datum.file_link}" target="_blank"">
+                <div>
+                    <div>${datum.grade + " " + datum.slot_name}</div>
+                    <div>Subject: ${datum.subject}</div>
+                </div>
+                <div>
+                    <div>${datum.semester.includes('SMT2') ? '2023/2024 Semester 2' : '2023/2024 Semester 1'}</div>
+                </div>
             </a>
         `;
-    });
+        });
+    }
 
     let areaArticle = document.getElementById('area');
+    let getOptionId = document.getElementById('gradeDropDown');
+    let getValueOfTheLabel = getOptionId.value;
+    getOptionId.innerHTML = gradeOptions;
+    getOptionId.value = getValueOfTheLabel;
     areaArticle.innerHTML = newEl;
 
     // Mengatur teks jumlah halaman sesuai dengan totalPages
@@ -66,17 +90,25 @@ let previousPage = () => {
 
 let filterData = () => {
     const selectedSubject = document.getElementById("subjectDropDown").value;
+    const selectedSemester = document.getElementById("semester").value;
+    const selectedGrade = document.getElementById("gradeDropDown").value;
 
     // Menerapkan filter berdasarkan subjek yang dipilih
     DataWhichFiltered = allData.filter((datum) => {
-        return (
-            (selectedSubject === "" || datum.subject === selectedSubject)
-        );
-    });
+        if (selectedGrade < 4 && selectedSubject === "") {
+            return datum.semester === selectedSemester;
+        } else if (selectedGrade < 4) {
+            return datum.subject === selectedSubject && datum.semester === selectedSemester;
+        } else if (selectedGrade >=4 && selectedSubject === ""){
+            return datum.grade === selectedGrade && datum.semester === selectedSemester;
+        } return datum.grade === selectedGrade && datum.subject === selectedSubject && datum.semester === selectedSemester;
+    }
+    ).sort((a, b) => a.grade - b.grade);
 
-    // Reset currentPage ke 1 ketika filter berubah
+    let footprintCountBasedOnFilter = DataWhichFiltered.length;
+    document.getElementById("footprintCount").textContent = `Jumlah footprint yang ditampilkan: ${footprintCountBasedOnFilter} dari ${allData.length}`
+
     currentPage = 1;
-
     changeElement(DataWhichFiltered);
 };
 
@@ -87,12 +119,11 @@ let searchKeyword = () => {
         // Jika input pencarian kosong, perbarui tampilan ke posisi awal
         resetToInitialState();
     } else {
-        const filteredData = allData.filter((datum) => {
-            return datum.file_name.toLowerCase().includes(textSearch);
-        });
-
-        DataWhichFiltered = filteredData;
-        currentPage = 1; // Reset halaman ke halaman pertama
+        resetToInitialState();
+        const splitTheKeyword = textSearch.split(' ');
+        const filteredData = DataWhichFiltered.filter(datum => {
+            return splitTheKeyword.every(keyword => datum.file_name.toLowerCase().includes(keyword))
+        })
         changeElement(filteredData);
     }
 };
@@ -102,70 +133,68 @@ let searchInput = document.getElementById('search');
 searchInput.addEventListener('input', searchKeyword);
 
 function resetToInitialState() {
-    searchInput.value = ''; // Mengosongkan input pencarian
-    // Mengembalikan tampilan ke posisi awal dengan filter yang diterapkan saat ini
-    DataWhichFiltered = allData;
-    currentPage = 1;
-    changeElement(allData);
+    filterData();
 }
 
-document.getElementById('subjectDropDown').addEventListener("change", filterData);
+idDropDowns.forEach((id) => {
+    document.getElementById(id).addEventListener("change", filterData);
+});
 document.getElementById('goAhead').addEventListener("click", nextPage);
 document.getElementById('getBack').addEventListener("click", previousPage);
 
-var SuperPlaceholder = function(options) {  
+var SuperPlaceholder = function (options) {
     this.options = options;
     this.element = options.element
     this.placeholderIdx = 0;
     this.charIdx = 0;
-    
-  
-    this.setPlaceholder = function() {
+
+
+    this.setPlaceholder = function () {
         placeholder = options.placeholders[this.placeholderIdx];
-        var placeholderChunk = placeholder.substring(0, this.charIdx+1);
+        var placeholderChunk = placeholder.substring(0, this.charIdx + 1);
         document.querySelector(this.element).setAttribute("placeholder", placeholderChunk)
     };
-    
-    this.onTickReverse = function(afterReverse) {
-      if (this.charIdx === 0) {
-        afterReverse.bind(this)();
-        clearInterval(this.intervalId); 
-        this.init(); 
-      } else {
-        this.setPlaceholder();
-        this.charIdx--;
-      }
+
+    this.onTickReverse = function (afterReverse) {
+        if (this.charIdx === 0) {
+            afterReverse.bind(this)();
+            clearInterval(this.intervalId);
+            this.init();
+        } else {
+            this.setPlaceholder();
+            this.charIdx--;
+        }
     };
-    
-    this.goReverse = function() {
+
+    this.goReverse = function () {
         clearInterval(this.intervalId);
-        this.intervalId = setInterval(this.onTickReverse.bind(this, function() {
-          this.charIdx = 0;
-          this.placeholderIdx++;
-          if (this.placeholderIdx === options.placeholders.length) {
-            // end of all placeholders reached
-            this.placeholderIdx = 0;
-          }
+        this.intervalId = setInterval(this.onTickReverse.bind(this, function () {
+            this.charIdx = 0;
+            this.placeholderIdx++;
+            if (this.placeholderIdx === options.placeholders.length) {
+                // end of all placeholders reached
+                this.placeholderIdx = 0;
+            }
         }), this.options.speed)
     };
-    
-    this.onTick = function() {
+
+    this.onTick = function () {
         var placeholder = options.placeholders[this.placeholderIdx];
         if (this.charIdx === placeholder.length) {
-          // end of a placeholder sentence reached
-          setTimeout(this.goReverse.bind(this), this.options.stay);
+            // end of a placeholder sentence reached
+            setTimeout(this.goReverse.bind(this), this.options.stay);
         }
-        
+
         this.setPlaceholder();
-      
+
         this.charIdx++;
-      }
-    
-    this.init = function() {
-      this.intervalId = setInterval(this.onTick.bind(this), this.options.speed);
     }
-    
-    this.kill = function() {
-      clearInterval(this.intervalId); 
+
+    this.init = function () {
+        this.intervalId = setInterval(this.onTick.bind(this), this.options.speed);
     }
-  }  
+
+    this.kill = function () {
+        clearInterval(this.intervalId);
+    }
+}  
