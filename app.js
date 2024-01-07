@@ -39,7 +39,7 @@ let changeElement = (data) => {
     if (data.length === 0) {
         document.getElementById('area').classList.remove('grid');
         newEl += `<div class="data-unavailable">
-                        <img src="https://png2.cleanpng.com/sh/b657b08ebdfdd89cb6aca027c33f2b05/L0KzQYi4UcI4N2I4fpGAYUHldYrpWPI4OZNpSJCBM0C3SYKCUsE2OWI8T6oCNES6RXB3jvc=/5a1be9b8b71bd0.63049192151177874475.png" alt="smurf" width="100" height="130">
+                        <img src="https://colearn.id/_next/static/media/neco_bathing.4e793214.svg" alt="smurf" width="130" height="169">
                         <div>Oops, Data Tidak Tersedia</div>
                         <div>pastikan pemilihan grade atau subjeknya sesuai ya. Hati-hati format penulisan nama slotnya</div>
                   </div>`
