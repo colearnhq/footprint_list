@@ -4,7 +4,7 @@ let idDropDowns = ['subjectDropDown', 'semester', 'gradeDropDown'];
 let allData = [];
 let DataWhichFiltered = [];
 
-fetch('https://script.google.com/a/macros/colearn.id/s/AKfycbygJFdLaO7Gu74rB4_XhXC4SRiG4gOATbMcqIswERPKAhNwkk390f6fLt96iAt_4JuJpQ/exec')
+fetch('https://script.google.com/macros/s/AKfycbyx5-zLeouuu1VzawqBARPp-wSHdLPnsK_fpmrKvAvZhrClOWnMYuEw1FS8bYRjFB9X/exec')
     .then((res) => {
         if (res.status != 200) {
             console.log('aduuh' + res.status);
