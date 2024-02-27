@@ -54,7 +54,7 @@ let changeElement = (data) => {
                     <div>Subject: ${datum.subject}</div>
                 </div>
                 <div>
-                    <div>${datum.semester.includes('2022/2023') ? '2022/2023 Semester 2' : (datum.semester === '2022/2023-SMT2' ? '2023/2024 Semester 2' : '2023/2024 Semester 1')}</div>
+                    <div>${datum.semester.includes('2022/2023') ? '2022/2023 Semester 2' : (datum.semester === '2023/2024-SMT2' ? '2023/2024 Semester 2' : '2023/2024 Semester 1')}</div>
                 </div>
             </a>
         `;
