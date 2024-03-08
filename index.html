@@ -79,15 +79,16 @@
             localStorage.setItem('authInfo', JSON.stringify(params));
         }
 
-        // window.history.pushState({}, document.title, `/footprints`)
-        let info = JSON.parse(localStorage.getItem('authInfo'));
+        // Ensure you are redirecting within a function or IIFE context
+        window.history.pushState({}, document.title, `/footprints`);
+        let info = JSON.parse(localStorage.getItem('authInfo') || '{}'); // Use '{}' as a fallback
+        let access_token = info['access_token'];
 
-        let access_token = info && info['access_token'] ? info['access_token'] : null;
         if (!access_token) {
-            // Redirect to login or handle error
+            // Redirect to login or handle error within the function context
             console.log("No access token. Redirecting to login...");
             window.location.href = "/login.html"; // Adjust the path if necessary
-            return;
+            return; // This return is now valid because it's inside a function
         }
 
 
