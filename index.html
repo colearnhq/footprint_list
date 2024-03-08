@@ -79,9 +79,17 @@
             localStorage.setItem('authInfo', JSON.stringify(params));
         }
 
-        window.history.pushState({}, document.title, `/footprints`)
+        // window.history.pushState({}, document.title, `/footprints`)
         let info = JSON.parse(localStorage.getItem('authInfo'));
-        let access_token = info['access_token'];
+
+        let access_token = info && info['access_token'] ? info['access_token'] : null;
+        if (!access_token) {
+            // Redirect to login or handle error
+            console.log("No access token. Redirecting to login...");
+            window.location.href = "/login.html"; // Adjust the path if necessary
+            return;
+        }
+
 
         fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
             headers: {
