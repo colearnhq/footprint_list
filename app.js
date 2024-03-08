@@ -3,8 +3,9 @@ let limitElement = 10;
 let idDropDowns = ['subjectDropDown', 'semester', 'gradeDropDown'];
 let allData = [];
 let DataWhichFiltered = [];
+let slot_names = [];
 
-fetch('https://script.google.com/macros/s/AKfycbygJFdLaO7Gu74rB4_XhXC4SRiG4gOATbMcqIswERPKAhNwkk390f6fLt96iAt_4JuJpQ/exec')
+fetch('https://script.google.com/macros/s/AKfycbyx5-zLeouuu1VzawqBARPp-wSHdLPnsK_fpmrKvAvZhrClOWnMYuEw1FS8bYRjFB9X/exec')
     .then((res) => {
         if (res.status != 200) {
             console.log('aduuh' + res.status);
@@ -22,7 +23,7 @@ fetch('https://script.google.com/macros/s/AKfycbygJFdLaO7Gu74rB4_XhXC4SRiG4gOATb
 
 let changeElement = (data) => {
     let newEl = '';
-    let gradeOptions = '<option value="">Pilih Grade</option>';
+    let gradeOptions = '<option value="">Grade</option>';
     let getUniqueGrades = [... new Set(allData.map(datum => datum.grade))].sort((a, b) => a - b);
     getUniqueGrades.forEach(datum => {
         gradeOptions += `
@@ -34,7 +35,6 @@ let changeElement = (data) => {
     const totalPages = Math.ceil(data.length / limitElement);
 
     let modifyData = data.slice((currentPage - 1) * limitElement, (currentPage) * limitElement);
-    console.log(data.length)
 
     if (data.length === 0) {
         document.getElementById('area').classList.remove('grid');
@@ -54,7 +54,7 @@ let changeElement = (data) => {
                     <div>Subject: ${datum.subject}</div>
                 </div>
                 <div>
-                    <div>${datum.semester.includes('SMT2') ? '2023/2024 Semester 2' : '2023/2024 Semester 1'}</div>
+                    <div>${datum.semester.includes('2022/2023') ? '2022/2023 Semester 2' : (datum.semester === '2023/2024-SMT2' ? '2023/2024 Semester 2' : '2023/2024 Semester 1')}</div>
                 </div>
             </a>
         `;
@@ -93,28 +93,31 @@ let filterData = () => {
     const selectedSemester = document.getElementById("semester").value;
     const selectedGrade = document.getElementById("gradeDropDown").value;
 
+    slot_names.length = 0;
+
     // Menerapkan filter berdasarkan subjek yang dipilih
     DataWhichFiltered = allData.filter((datum) => {
         if (selectedGrade < 4 && selectedSubject === "") {
             return datum.semester === selectedSemester;
         } else if (selectedGrade < 4) {
             return datum.subject === selectedSubject && datum.semester === selectedSemester;
-        } else if (selectedGrade >=4 && selectedSubject === ""){
+        } else if (selectedGrade >= 4 && selectedSubject === "") {
             return datum.grade === selectedGrade && datum.semester === selectedSemester;
         } return datum.grade === selectedGrade && datum.subject === selectedSubject && datum.semester === selectedSemester;
     }
     ).sort((a, b) => a.grade - b.grade);
 
     let footprintCountBasedOnFilter = DataWhichFiltered.length;
-    document.getElementById("footprintCount").textContent = `Jumlah footprint yang ditampilkan: ${footprintCountBasedOnFilter} dari ${allData.length}`
+    document.getElementById("footprintCount").textContent = `Number of Footprints displayed: ${footprintCountBasedOnFilter} of ${allData.length}`
 
     currentPage = 1;
+
+    DataWhichFiltered.forEach(data => slot_names.push(data.file_name));
     changeElement(DataWhichFiltered);
 };
 
 let searchKeyword = () => {
     const textSearch = document.getElementById('search').value.toLowerCase();
-
     if (textSearch === '') {
         // Jika input pencarian kosong, perbarui tampilan ke posisi awal
         resetToInitialState();
@@ -122,7 +125,7 @@ let searchKeyword = () => {
         resetToInitialState();
         const splitTheKeyword = textSearch.split(' ');
         const filteredData = DataWhichFiltered.filter(datum => {
-            return splitTheKeyword.every(keyword => datum.file_name.toLowerCase().includes(keyword))
+            return splitTheKeyword.every(keyword => datum.file_name.toLowerCase().split(' ').includes(keyword))
         })
         changeElement(filteredData);
     }
@@ -142,59 +145,96 @@ idDropDowns.forEach((id) => {
 document.getElementById('goAhead').addEventListener("click", nextPage);
 document.getElementById('getBack').addEventListener("click", previousPage);
 
-var SuperPlaceholder = function (options) {
-    this.options = options;
-    this.element = options.element
-    this.placeholderIdx = 0;
-    this.charIdx = 0;
-
-
-    this.setPlaceholder = function () {
-        placeholder = options.placeholders[this.placeholderIdx];
-        var placeholderChunk = placeholder.substring(0, this.charIdx + 1);
-        document.querySelector(this.element).setAttribute("placeholder", placeholderChunk)
-    };
-
-    this.onTickReverse = function (afterReverse) {
-        if (this.charIdx === 0) {
-            afterReverse.bind(this)();
-            clearInterval(this.intervalId);
-            this.init();
-        } else {
-            this.setPlaceholder();
-            this.charIdx--;
-        }
-    };
-
-    this.goReverse = function () {
-        clearInterval(this.intervalId);
-        this.intervalId = setInterval(this.onTickReverse.bind(this, function () {
-            this.charIdx = 0;
-            this.placeholderIdx++;
-            if (this.placeholderIdx === options.placeholders.length) {
-                // end of all placeholders reached
-                this.placeholderIdx = 0;
+function autocomplete(inp, arr) {
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function (e) {
+        var a, b, i, val = this.value;
+        closeAllLists();
+        if (!val) { return false; }
+        currentFocus = -1;
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        this.parentNode.appendChild(a);
+        for (i = 0; i < arr.length; i++) {
+            /*check if the item starts with the same letters as the text field value:*/
+            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                /*create a DIV element for each matching element:*/
+                b = document.createElement("DIV");
+                /*make the matching letters bold:*/
+                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                b.innerHTML += arr[i].substr(val.length);
+                /*insert a input field that will hold the current array item's value:*/
+                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                /*execute a function when someone clicks on the item value (DIV element):*/
+                b.addEventListener("click", function (e) {
+                    inp.value = this.getElementsByTagName("input")[0].value;
+                    closeAllLists();
+                    searchKeyword();
+                });
+                a.appendChild(b);
             }
-        }), this.options.speed)
-    };
-
-    this.onTick = function () {
-        var placeholder = options.placeholders[this.placeholderIdx];
-        if (this.charIdx === placeholder.length) {
-            // end of a placeholder sentence reached
-            setTimeout(this.goReverse.bind(this), this.options.stay);
         }
-
-        this.setPlaceholder();
-
-        this.charIdx++;
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function (e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+            /*If the arrow DOWN key is pressed,
+            increase the currentFocus variable:*/
+            currentFocus++;
+            /*and and make the current item more visible:*/
+            addActive(x);
+        } else if (e.keyCode == 38) { //up
+            /*If the arrow UP key is pressed,
+            decrease the currentFocus variable:*/
+            currentFocus--;
+            /*and and make the current item more visible:*/
+            addActive(x);
+        } else if (e.keyCode == 13) {
+            /*If the ENTER key is pressed, prevent the form from being submitted,*/
+            e.preventDefault();
+            if (currentFocus > -1) {
+                /*and simulate a click on the "active" item:*/
+                if (x) x[currentFocus].click();
+            }
+        }
+    });
+    function addActive(x) {
+        /*a function to classify an item as "active":*/
+        if (!x) return false;
+        /*start by removing the "active" class on all items:*/
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (x.length - 1);
+        /*add class "autocomplete-active":*/
+        x[currentFocus].classList.add("autocomplete-active");
     }
-
-    this.init = function () {
-        this.intervalId = setInterval(this.onTick.bind(this), this.options.speed);
+    function removeActive(x) {
+        /*a function to remove the "active" class from all autocomplete items:*/
+        for (var i = 0; i < x.length; i++) {
+            x[i].classList.remove("autocomplete-active");
+        }
     }
-
-    this.kill = function () {
-        clearInterval(this.intervalId);
+    function closeAllLists(elmnt) {
+        /*close all autocomplete lists in the document,
+        except the one passed as an argument:*/
+        var x = document.getElementsByClassName("autocomplete-items");
+        for (var i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != inp) {
+                x[i].parentNode.removeChild(x[i]);
+            }
+        }
     }
-}  
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+}
+
+
+autocomplete(document.getElementById("search"), slot_names);
