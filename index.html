@@ -10,290 +10,37 @@
     <link rel="icon"
         href="https://play-lh.googleusercontent.com/-XrH2uYQlXwLVUuey7y88hN9-WDL6ZweL39C1yvQlt6nO1tPEB8rGYejXxbA3mdmw5YE"
         type="image/x-icon">
-    <style>
-        html,
-        body {
-            margin: 0;
-            height: 100%;
-            overflow: auto;
-            font-family: 'Poppins';
-        }
-
-        .search-keyword {
-
-            background-image: url('https://www.freepnglogos.com/uploads/search-png/search-icon-transparent-images-vector-16.png');
-            background-position: 10px 10px;
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            width: 100%;
-            font-size: 16px;
-            padding: 12px 20px 12px 45px;
-            border: 1px solid #ddd;
-            border-radius: 50px 0 0 50px;
-
-        }
-
-        .margin {
-            margin: 0px 100px 12px;
-        }
-
-        SELECT {
-            background: url("data:image/svg+xml,<svg height='10px' width='10px' viewBox='0 0 16 16' fill='%23000000' xmlns='http://www.w3.org/2000/svg'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>") no-repeat;
-            background-position: calc(100% - 0.75rem) center !important;
-            -moz-appearance: none !important;
-            -webkit-appearance: none !important;
-            appearance: none !important;
-            padding-right: 2rem !important;
-        }
-
-        .dropdownPages {
-            background-color: #FFE9AE;
-            color: #8a753b;
-            padding: 12px 21px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            width: 21%;
-        }
-
-        .semester {
-            background-color: #FFE9AE;
-            color: #8a753b;
-            padding: 12px 20px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            width: 28%;
-            border-radius: 0px 50px 50px 0px;
-        }
-
-        .grid {
-            display: grid;
-            gap: 10px;
-            justify-content: center;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: repeat(4, 1fr);
-            margin: 0px 100px;
-        }
-
-        .data-unavailable {
-            text-align: center;
-            background-color: #ffcaca;
-            color: #4e4e4e;
-            padding: 50px 0;
-            margin: 0px 100px;
-            border-radius: 1em;
-        }
-
-        .data-unavailable>div:nth-child(2) {
-            color: #a84242;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .flex {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .flex-direction-column {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .flex-direction-row {
-            display: flex;
-            flex-direction: row;
-        }
-
-        h1 {
-            text-align: center;
-            padding: 10px 0px;
-        }
-
-        h3 {
-            padding: 10px 100px;
-        }
-
-        a > div:first-child {
-            padding: 1.5rem;
-        }
-
-        a > div:first-child >div:first-child {
-            font-size: 1.2em;
-            font-weight: 900;
-            margin-bottom: 10px;
-        }
-
-        a > div:last-child {
-            margin-bottom: 10px;
-            align-self: center;
-            text-align: center;
-            background-color: #FFE2AC;
-            height: fit-content;
-            width: fit-content;
-            padding: 10px;
-            border-radius: .5em;
-        }
-
-        a > div:last-child >div {
-            color: #F39C93;
-            font-weight: 700;
-        }
-
-        .box {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            width: 100%;
-            height: 100%;
-            background-color: #F18C8E;
-            box-shadow: 2px 4px 5px #efefef;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 1em;
-        }
-
-        .phy-box {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            width: 100%;
-            height: 100%;
-            background-color: #FFE0AC;
-            color: #6886C5;
-            box-shadow: 2px 4px 5px #efefef;
-            text-decoration: none;
-            border-radius: 1em;
-        }
-
-        .phy-box>div:last-child {
-            background-color: #6886C5;
-        }
-
-        .phy-box>div:last-child>div {
-            color: #FFE0AC;
-        }
-
-        .phy-box:hover {
-            background-color: #ffac2f;
-            color: #a36d1d;
-            float: left;
-            transition: background-color .3s;
-            cursor: pointer;
-        }
-
-        .chem-box {
-
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            width: 100%;
-            height: 100%;
-            background-color: #6886C5;
-            color: #ffffff;
-            box-shadow: 2px 4px 5px #efefef;
-            text-decoration: none;
-            border-radius: 1em;
-        }
-
-        .chem-box >div:last-child {
-            background-color: #FFE2AC;
-        }
-
-        .chem-box >div:last-child>div {
-            color: #6886C5;
-        }
-
-        .chem-box:hover {
-            background-color: #546c9e;
-            color: #ffffff;
-            float: left;
-            transition: background-color .3s;
-            cursor: pointer;
-        }
-
-        .box:hover {
-            background-color: #ef6666;
-            color: #891313;
-            float: left;
-            transition: background-color .3s;
-            cursor: pointer;
-        }
-
-        footer {
-            text-align: center;
-            padding: 10px 0px;
-            margin-top: 10px;
-        }
-
-        footer div {
-
-            text-decoration: none;
-            display: inline-block;
-            padding: 8px 16px;
-
-        }
-
-        .next {
-            background-color: #FFE9AE;
-            color: #8a753b;
-            width: 10rem;
-            border: none;
-            cursor: pointer;
-        }
-
-        .previous {
-            background-color: aliceblue;
-            border: none;
-            width: 10rem;
-            cursor: pointer;
-        }
-
-        .center {
-            text-align: center;
-            padding: 10px;
-        }
-
-        @media (max-width: 480px) {
-            .dropdownPages {
-                width: 0%;
-            }
-
-            .semester {
-                width: 0%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <h1 style="color: #7496e0;">Footprint List</h1>
-    <h3 id="footprintCount" style="color: #3f3f3f;">Jumlah footprint yang ditampilkan: loading...</h3>
+    <div>
+        <h3 id="footprintCount" style="color: #3f3f3f;">Footprints displayed: loading...</h3>
+        <div id="identity">
+            <img src="https://colearn.id/_next/static/media/coco_teaching.0ed67c4f.svg" alt="photo profile">
+            <div>
+                <div id="full-name">Anonym</div>
+                <div id="email">anony@colearn.id</div>
+            </div>
+        </div>
+    </div>
     <nav>
         <div class="flex-direction-row margin">
-            <input type="search" id="search" class="search-keyword" placeholder="biar sat set, masukin nama slot kamu">
-            <script>
-                window.onload = function () {
-                    var sp = new SuperPlaceholder({
-                        placeholders: ["Hayu dipilih grade dan subjectnya yak. Sesuaikan level nurani kalian", "format penulisannya bisa: grade(spasi)nama_slot atau nama_slot", "contoh: 7 Matematika Merdeka 1 atau Matematika Merdeka 1"],
-                        stay: 1000,
-                        speed: 20,
-                        element: '#search'
-                    });
-                    sp.init();
-                }
-            </script>
+            <div class="autosuggestion">
+                <input type="search" id="search" class="search-keyword"
+                    placeholder="e.g format: 7 Matematika Merdeka 1">
+            </div>
             <select name="dropdownPages" id="gradeDropDown" class="dropdownPages"></select>
             <select name="dropdownPages" id="subjectDropDown" class="dropdownPages">
-                <option value="">Pilih Subject</option>
+                <option value="">Subject</option>
                 <option value=Maths>Maths</option>
                 <option value=Physics>Physics</option>
                 <option value=Chemistry>Chemistry</option>
             </select>
             <select name="semester" id="semester" class="semester">
-                <option value="choose semester" disabled>Pilih Semester</option>
+                <option value="choose semester" disabled>Semester</option>
+                <option value="2022/2023-SMT2">2022/2023-SMT2</option>
                 <option value="2023/2024-SMT1">2023/2024-SMT1</option>
                 <option value="2023/2024-SMT2" selected>2023/2024-SMT2</option>
             </select>
@@ -317,8 +64,94 @@
         </button>
 
     </footer>
-
     <script src="app.js">
+    </script>
+    <script>
+        var fragmentString = location.hash.substring(1);
+
+        // Parse query string to see if page request is coming from OAuth 2.0 server.
+        var params = {};
+        var regex = /([^&=]+)=([^&]*)/g, m;
+        while (m = regex.exec(fragmentString)) {
+            params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+        }
+        if (Object.keys(params).length > 0) {
+            localStorage.setItem('authInfo', JSON.stringify(params));
+        }
+
+        window.history.pushState({}, document.title, `/index.html`)
+        let info = JSON.parse(localStorage.getItem('authInfo'));
+        let access_token = info['access_token'];
+
+        fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+            headers: {
+                "Authorization": `Bearer ${access_token}`
+            }
+        })
+            .then(res => {
+                if (res.status !== 200) {
+                    console.log(`Error with status code ${res.status}`);
+                    if (res.status === 401) {
+                        document.body.innerHTML = '';
+                        let warningDiv = document.createElement('div');
+                        warningDiv.setAttribute('style', 'text-align: center; padding-top: 20%; font-size: 24px;');
+                        warningDiv.innerHTML = `Your session has expired. <br>Please <a href="/login.html" style="color: rgb(30, 90, 246); text-decoration: none;">log in</a> again.`;
+                        document.body.appendChild(warningDiv);
+
+                        setTimeout(() => {
+                            location.href = "/login.html";
+                        }, 5000);
+
+                        return;
+                    }
+                    throw new Error(`Request failed with status ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                let email = data.email;
+                let fullName = data.name;
+                let pic = data.picture;
+                let login_at = new Date().toLocaleString("ID-id");
+
+                document.getElementById('full-name').innerText = fullName;
+                document.getElementById('email').innerText = `logged in as ${email}`;
+                document.getElementById('identity').children[0].setAttribute('src', pic);
+
+                appendRowToSheet(access_token, "1vnCaAo1KIIuwXIrApOwXojaKQmUtUNKyjSygd314g3o", "data!A2:C", [email, fullName, login_at])
+
+            })
+            .catch(error => {
+                console.error("Caught an error:", error);
+            });
+
+        function appendRowToSheet(accessToken, spreadsheetId, range, values) {
+            var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
+            var params = {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "values": [values]
+                })
+            };
+
+            fetch(url, params)
+                .then(response => response.json())
+                .catch(error => console.error('Error:', error));
+        }
+
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QD211TEP6B"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-QD211TEP6B');
     </script>
 
 </body>
