@@ -79,7 +79,7 @@
             localStorage.setItem('authInfo', JSON.stringify(params));
         }
 
-        window.history.pushState({}, document.title, `/index.html`)
+        window.history.pushState({}, document.title, `/footprints`)
         let info = JSON.parse(localStorage.getItem('authInfo'));
         let access_token = info['access_token'];
 
