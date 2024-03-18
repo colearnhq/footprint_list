@@ -87,8 +87,6 @@
             console.log("No access token. Redirecting to login...");
             window.location.href = "/liveops/login";
         } else {
-            // Proceed with user info fetching and page manipulation
-            window.history.pushState({}, document.title, `/footprints`);
 
             fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
                 headers: {
