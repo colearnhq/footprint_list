@@ -79,80 +79,78 @@
             localStorage.setItem('authInfo', JSON.stringify(params));
         }
 
-        // Ensure you are redirecting within a function or IIFE context
-        window.history.pushState({}, document.title, `/footprints`);
-        let info = JSON.parse(localStorage.getItem('authInfo') || '{}'); // Use '{}' as a fallback
+        // Check if access token exists and redirect if necessary
+        let info = JSON.parse(localStorage.getItem('authInfo') || '{}');
         let access_token = info['access_token'];
 
         if (!access_token) {
-            // Redirect to login or handle error within the function context
             console.log("No access token. Redirecting to login...");
-            window.location.href = "/login.html"; // Adjust the path if necessary
-            return; // This return is now valid because it's inside a function
-        }
+            window.location.href = "/login.html";
+        } else {
+            // Proceed with user info fetching and page manipulation
+            window.history.pushState({}, document.title, `/footprints`);
 
-
-        fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-            headers: {
-                "Authorization": `Bearer ${access_token}`
-            }
-        })
-            .then(res => {
-                if (res.status !== 200) {
-                    console.log(`Error with status code ${res.status}`);
-                    if (res.status === 401) {
-                        document.body.innerHTML = '';
-                        let warningDiv = document.createElement('div');
-                        warningDiv.setAttribute('style', 'text-align: center; padding-top: 20%; font-size: 24px;');
-                        warningDiv.innerHTML = `Your session has expired. <br>Please <a href="/login.html" style="color: rgb(30, 90, 246); text-decoration: none;">log in</a> again.`;
-                        document.body.appendChild(warningDiv);
-
-                        setTimeout(() => {
-                            location.href = "/login.html";
-                        }, 5000);
-
-                        return;
-                    }
-                    throw new Error(`Request failed with status ${res.status}`);
-                }
-                return res.json();
-            })
-            .then(data => {
-                let email = data.email;
-                let fullName = data.name;
-                let pic = data.picture;
-                let login_at = new Date().toLocaleString("ID-id");
-
-                document.getElementById('full-name').innerText = fullName;
-                document.getElementById('email').innerText = `logged in as ${email}`;
-                document.getElementById('identity').children[0].setAttribute('src', pic);
-
-                appendRowToSheet(access_token, "1vnCaAo1KIIuwXIrApOwXojaKQmUtUNKyjSygd314g3o", "data!A2:C", [email, fullName, login_at])
-
-            })
-            .catch(error => {
-                console.error("Caught an error:", error);
-            });
-
-        function appendRowToSheet(accessToken, spreadsheetId, range, values) {
-            var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
-            var params = {
-                method: 'POST',
+            fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "values": [values]
+                    "Authorization": `Bearer ${access_token}`
+                }
+            })
+                .then(res => {
+                    if (res.status !== 200) {
+                        console.log(`Error with status code ${res.status}`);
+                        if (res.status === 401) {
+                            document.body.innerHTML = '';
+                            let warningDiv = document.createElement('div');
+                            warningDiv.setAttribute('style', 'text-align: center; padding-top: 20%; font-size: 24px;');
+                            warningDiv.innerHTML = `Your session has expired. <br>Please <a href="/login.html" style="color: rgb(30, 90, 246); text-decoration: none;">log in</a> again.`;
+                            document.body.appendChild(warningDiv);
+
+                            setTimeout(() => {
+                                location.href = "/login.html";
+                            }, 5000);
+
+                            return;
+                        }
+                        throw new Error(`Request failed with status ${res.status}`);
+                    }
+                    return res.json();
                 })
-            };
+                .then(data => {
+                    let email = data.email;
+                    let fullName = data.name;
+                    let pic = data.picture;
+                    let login_at = new Date().toLocaleString("ID-id");
 
-            fetch(url, params)
-                .then(response => response.json())
-                .catch(error => console.error('Error:', error));
+                    document.getElementById('full-name').innerText = fullName;
+                    document.getElementById('email').innerText = `logged in as ${email}`;
+                    document.getElementById('identity').children[0].setAttribute('src', pic);
+
+                    appendRowToSheet(access_token, "1vnCaAo1KIIuwXIrApOwXojaKQmUtUNKyjSygd314g3o", "data!A2:C", [email, fullName, login_at]);
+                })
+                .catch(error => {
+                    console.error("Caught an error:", error);
+                });
+
+            function appendRowToSheet(accessToken, spreadsheetId, range, values) {
+                var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
+                var params = {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "values": [values]
+                    })
+                };
+
+                fetch(url, params)
+                    .then(response => response.json())
+                    .catch(error => console.error('Error:', error));
+            }
         }
-
     </script>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QD211TEP6B"></script>
     <script>
