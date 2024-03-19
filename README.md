@@ -1,2 +1,3 @@
 # liveops
-this will be helpful for everyone
+we gather the footprints into a single page. 
+In order to help to teacher to get the student performance
