@@ -85,7 +85,7 @@
 
             if (!access_token) {
                 console.log("No access token. Redirecting to login...");
-                window.location.href = "/liveops/login";
+                window.location.href = "/footprint_list/login";
             } else {
 
                 fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -100,11 +100,11 @@
                                 document.body.innerHTML = '';
                                 let warningDiv = document.createElement('div');
                                 warningDiv.setAttribute('style', 'text-align: center; padding-top: 20%; font-size: 24px;');
-                                warningDiv.innerHTML = `Your session has expired. <br>Please <a href="/liveops/login.html" style="color: rgb(30, 90, 246); text-decoration: none;">log in</a> again.`;
+                                warningDiv.innerHTML = `Your session has expired. <br>Please <a href="/footprint_list/login.html" style="color: rgb(30, 90, 246); text-decoration: none;">log in</a> again.`;
                                 document.body.appendChild(warningDiv);
 
                                 setTimeout(() => {
-                                    location.href = "/liveops/login";
+                                    location.href = "/footprint_list/login";
                                 }, 5000);
 
                                 return;
