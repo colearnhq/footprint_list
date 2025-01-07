@@ -21,15 +21,28 @@ fetch('https://script.google.com/macros/s/AKfycbyx5-zLeouuu1VzawqBARPp-wSHdLPnsK
 
     .catch((err) => console.log(err));
 
+const grades = [...new Set(allData.map(data => data.grade))].sort();
+const subjects = [...new Set(allData.map(data => data.subject))].sort((a, b) => String(a).localeCompare(String(b)));
+const semesters = [...new Set(allData.map(data => data.semester))].sort((a, b) => String(a).localeCompare(String(b)));
+
+const putOptionsOnDropdown = (data, identifier, id) => {
+    let array = [...data];
+    let options = `<option value="">${identifier}</option>`;
+    let optionId = document.getElementById(id);
+
+    array.forEach(value => {
+        options += `<option value="${value}">${datum}</option>`
+    });
+
+    optionId.innerHTML = options;
+}
+
+putOptionsOnDropdown(grades, "Grade", "gradeDropDown");
+putOptionsOnDropdown(subjects, "Subject", "subjectDropDown");
+putOptionsOnDropdown(grades, "Semester", "semester");
+
 let changeElement = (data) => {
     let newEl = '';
-    let gradeOptions = '<option value="">Grade</option>';
-    let getUniqueGrades = [... new Set(allData.map(datum => datum.grade))].sort((a, b) => a - b);
-    getUniqueGrades.forEach(datum => {
-        gradeOptions += `
-        <option value="${datum}">${datum}</option>
-        `
-    })
 
     const totalPages = Math.ceil(data.length / limitElement);
 
@@ -61,10 +74,6 @@ let changeElement = (data) => {
     }
 
     let areaArticle = document.getElementById('area');
-    let getOptionId = document.getElementById('gradeDropDown');
-    let getValueOfTheLabel = getOptionId.value;
-    getOptionId.innerHTML = gradeOptions;
-    getOptionId.value = getValueOfTheLabel;
     areaArticle.innerHTML = newEl;
 
     document.getElementById("page").innerHTML = currentPage + " / " + totalPages;
