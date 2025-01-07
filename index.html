@@ -44,6 +44,7 @@
                 <option value="2023/2024-SMT1">2023/2024-SMT1</option>
                 <option value="2023/2024-SMT2">2023/2024-SMT2</option>
                 <option value="2024/2025-SMT1" selected>2024/2025-SMT1</option>
+                <option value="2024/2025-SMT2" selected>2024/2025-SMT2</option>
             </select>
         </div>
     </nav>
@@ -69,8 +70,6 @@
     </script>
     <script>
         var fragmentString = location.hash.substring(1);
-
-        // Parse query string to see if page request is coming from OAuth 2.0 server.
         var params = {};
         var regex = /([^&=]+)=([^&]*)/g, m;
         while (m = regex.exec(fragmentString)) {
@@ -80,7 +79,6 @@
             localStorage.setItem('authInfo', JSON.stringify(params));
         }
 
-        // Check if access token exists and redirect if necessary
         let info = JSON.parse(localStorage.getItem('authInfo') || '{}');
         let access_token = info['access_token'];
 
@@ -150,7 +148,6 @@
         }
     </script>
 
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QD211TEP6B"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
