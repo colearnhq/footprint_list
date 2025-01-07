@@ -15,15 +15,19 @@ fetch('https://script.google.com/macros/s/AKfycbyx5-zLeouuu1VzawqBARPp-wSHdLPnsK
         res.json().then((res) => {
             allData = res;
             filterData();
+
+            const grades = [...new Set(allData.map(data => data.grade))].sort();
+            const subjects = [...new Set(allData.map(data => data.subject))].sort((a, b) => String(a).localeCompare(String(b)));
+            const semesters = [...new Set(allData.map(data => data.semester))].sort((a, b) => String(a).localeCompare(String(b)));
+
+            putOptionsOnDropdown(grades, "Grade", "gradeDropDown");
+            putOptionsOnDropdown(subjects, "Subject", "subjectDropDown");
+            putOptionsOnDropdown(semesters, "Semester", "semester");
         });
 
     })
 
     .catch((err) => console.log(err));
-
-const grades = [...new Set(allData.map(data => data.grade))].sort();
-const subjects = [...new Set(allData.map(data => data.subject))].sort((a, b) => String(a).localeCompare(String(b)));
-const semesters = [...new Set(allData.map(data => data.semester))].sort((a, b) => String(a).localeCompare(String(b)));
 
 const putOptionsOnDropdown = (data, identifier, id) => {
     let array = [...data];
@@ -31,15 +35,11 @@ const putOptionsOnDropdown = (data, identifier, id) => {
     let optionId = document.getElementById(id);
 
     array.forEach(value => {
-        options += `<option value="${value}">${datum}</option>`
+        options += `<option value="${value}">${value}</option>`
     });
 
     optionId.innerHTML = options;
 }
-
-putOptionsOnDropdown(grades, "Grade", "gradeDropDown");
-putOptionsOnDropdown(subjects, "Subject", "subjectDropDown");
-putOptionsOnDropdown(grades, "Semester", "semester");
 
 let changeElement = (data) => {
     let newEl = '';
