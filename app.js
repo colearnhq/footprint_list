@@ -15,19 +15,22 @@ fetch('https://script.google.com/macros/s/AKfycbyx5-zLeouuu1VzawqBARPp-wSHdLPnsK
         res.json().then((res) => {
             allData = res;
             filterData();
-
-            const grades = [...new Set(allData.map(data => data.grade))].sort();
-            const subjects = [...new Set(allData.map(data => data.subject))].sort((a, b) => String(a).localeCompare(String(b)));
-            const semesters = [...new Set(allData.map(data => data.semester))].sort((a, b) => String(a).localeCompare(String(b)));
-
-            putOptionsOnDropdown(grades, "Grade", "gradeDropDown");
-            putOptionsOnDropdown(subjects, "Subject", "subjectDropDown");
-            putOptionsOnDropdown(semesters, "Semester", "semester");
+            populateDropdowns();
         });
 
     })
 
     .catch((err) => console.log(err));
+
+const populateDropdowns = () => {
+    const grades = [...new Set(allData.map(data => data.grade))].sort();
+    const subjects = [...new Set(allData.map(data => data.subject))].sort((a, b) => String(a).localeCompare(String(b)));
+    const semesters = [...new Set(allData.map(data => data.semester))].sort((a, b) => String(a).localeCompare(String(b)));
+
+    putOptionsOnDropdown(grades, "Grade", "gradeDropDown");
+    putOptionsOnDropdown(subjects, "Subject", "subjectDropDown");
+    putOptionsOnDropdown(semesters, "Semester", "semester");
+};
 
 const putOptionsOnDropdown = (data, identifier, id) => {
     let array = [...data];
