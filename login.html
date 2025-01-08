@@ -116,7 +116,6 @@
             form.setAttribute('method', 'GET');
             form.setAttribute('action', oauth2Endpoint);
 
-            // Parameters to pass to OAuth 2.0 endpoint.
             var params = {
                 'client_id': YOUR_CLIENT_ID,
                 'redirect_uri': YOUR_REDIRECT_URI,
@@ -126,7 +125,6 @@
                 'response_type': 'token'
             };
 
-            // Add form parameters as hidden input values.
             for (var p in params) {
                 var input = document.createElement('input');
                 input.setAttribute('type', 'hidden');
@@ -135,7 +133,6 @@
                 form.appendChild(input);
             }
 
-            // Add form to page and submit it to open the OAuth 2.0 endpoint.
             document.body.appendChild(form);
             form.submit();
         }
