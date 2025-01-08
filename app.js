@@ -15,33 +15,13 @@ fetch('https://script.google.com/macros/s/AKfycbyx5-zLeouuu1VzawqBARPp-wSHdLPnsK
         res.json().then((res) => {
             allData = res;
             filterData();
+            populateDropdowns();
         });
 
     })
 
     .catch((err) => console.log(err));
 
-const populateDropdowns = () => {
-    const grades = [...new Set(allData.map(data => data.grade))].sort();
-    const subjects = [...new Set(allData.map(data => data.subject))].sort((a, b) => String(a).localeCompare(String(b)));
-    const semesters = [...new Set(allData.map(data => data.semester))].sort((a, b) => String(a).localeCompare(String(b)));
-
-    putOptionsOnDropdown(grades, "Grade", "gradeDropDown");
-    putOptionsOnDropdown(subjects, "Subject", "subjectDropDown");
-    putOptionsOnDropdown(semesters, "Semester", "semester");
-};
-
-const putOptionsOnDropdown = (data, identifier, id) => {
-    let array = [...data];
-    let options = `<option value="">${identifier}</option>`;
-    let optionId = document.getElementById(id);
-
-    array.forEach(value => {
-        options += `<option value="${value}">${value}</option>`
-    });
-
-    optionId.innerHTML = options;
-}
 
 let changeElement = (data) => {
     let newEl = '';
@@ -75,7 +55,6 @@ let changeElement = (data) => {
         });
     }
 
-    populateDropdowns();
     let areaArticle = document.getElementById('area');
     areaArticle.innerHTML = newEl;
 
@@ -98,32 +77,60 @@ let previousPage = () => {
     }
 }
 
-let filterData = () => {
-    const selectedSubject = document.getElementById("subjectDropDown").value;
+const populateDropdowns = () => {
     const selectedSemester = document.getElementById("semester").value;
     const selectedGrade = document.getElementById("gradeDropDown").value;
+    const selectedSubject = document.getElementById("subjectDropDown").value;
 
-    slot_names.length = 0;
+    const filteredData = allData.filter(data =>
+        (!selectedSemester || data.semester === selectedSemester) &&
+        (!selectedGrade || data.grade === selectedGrade) &&
+        (!selectedSubject || data.subject === selectedSubject)
+    );
 
-    DataWhichFiltered = allData.filter((datum) => {
-        if (selectedGrade < 4 && selectedSubject === "") {
-            return datum.semester === selectedSemester;
-        } else if (selectedGrade < 4) {
-            return datum.subject === selectedSubject && datum.semester === selectedSemester;
-        } else if (selectedGrade >= 4 && selectedSubject === "") {
-            return datum.grade === selectedGrade && datum.semester === selectedSemester;
-        } return datum.grade === selectedGrade && datum.subject === selectedSubject && datum.semester === selectedSemester;
-    }
-    ).sort((a, b) => a.grade - b.grade);
+    const grades = [...new Set(filteredData.map(data => data.grade))].sort((a, b) => a - b);
+    const subjects = [...new Set(filteredData.map(data => data.subject))].sort((a, b) => String(a).localeCompare(String(b)));
+    const semesters = [...new Set(filteredData.map(data => data.semester))].sort((a, b) => String(a).localeCompare(String(b)));
 
-    let footprintCountBasedOnFilter = DataWhichFiltered.length;
-    document.getElementById("footprintCount").textContent = `Number of Footprints displayed: ${footprintCountBasedOnFilter} of ${allData.length}`
-
-    currentPage = 1;
-
-    DataWhichFiltered.forEach(data => slot_names.push(data.file_name));
-    changeElement(DataWhichFiltered);
+    putOptionsOnDropdown(grades, "Grade", "gradeDropDown", selectedGrade);
+    putOptionsOnDropdown(subjects, "Subject", "subjectDropDown", selectedSubject);
+    putOptionsOnDropdown(semesters, "Semester", "semester", selectedSemester);
 };
+
+const putOptionsOnDropdown = (data, identifier, id, selectedValue) => {
+    let options = `<option value="">${identifier}</option>`;
+    const optionId = document.getElementById(id);
+
+    data.forEach(value => {
+        const isSelected = value === selectedValue;
+        options += `<option value="${value}" ${isSelected ? "selected" : ""}>${value}</option>`;
+    });
+
+    optionId.innerHTML = options;
+};
+
+const filterData = () => {
+    const selectedSemester = document.getElementById("semester").value;
+    const selectedGrade = document.getElementById("gradeDropDown").value;
+    const selectedSubject = document.getElementById("subjectDropDown").value;
+
+    DataWhichFiltered = allData.filter(data =>
+        (!selectedSemester || data.semester === selectedSemester) &&
+        (!selectedGrade || data.grade === selectedGrade) &&
+        (!selectedSubject || data.subject === selectedSubject)
+    );
+
+    document.getElementById("footprintCount").textContent = `Number of Footprints displayed: ${DataWhichFiltered.length} of ${allData.length}`;
+
+    changeElement(DataWhichFiltered);
+
+    populateDropdowns();
+};
+
+idDropDowns.forEach(id => {
+    document.getElementById(id).addEventListener("change", filterData);
+});
+
 
 let searchKeyword = () => {
     const textSearch = document.getElementById('search').value.toLowerCase();
@@ -223,5 +230,3 @@ function autocomplete(inp, arr) {
 
 
 autocomplete(document.getElementById("search"), slot_names);
-
-
