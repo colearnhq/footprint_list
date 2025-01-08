@@ -108,15 +108,12 @@
 <body>
     <script>
         var YOUR_CLIENT_ID = "631435944830-conknpa3idl2akfodksjdd4h2q5nmn9t.apps.googleusercontent.com";
-        var YOUR_REDIRECT_URI = 'http://127.0.0.1:5500/index.html';
+        var YOUR_REDIRECT_URI = 'https://colearnhq.github.io/footprint_list/';
 
         function oauth2SignIn() {
-            // Google's OAuth 2.0 endpoint for requesting an access token
             var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
-
-            // Create element to open OAuth 2.0 endpoint in new window.
             var form = document.createElement('form');
-            form.setAttribute('method', 'GET'); // Send as a GET request.
+            form.setAttribute('method', 'GET');
             form.setAttribute('action', oauth2Endpoint);
 
             // Parameters to pass to OAuth 2.0 endpoint.
